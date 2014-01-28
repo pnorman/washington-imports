@@ -1,0 +1,53 @@
+/*
+Based on http://www.emacsen.net/osm/nycbuilding.zip
+*/
+
+meta {
+	title: "King County Import Style";
+	description: "Style for helping the King County Building Import";
+	version: "0.1";
+	author: "pnorman";
+	link: "http://pnorman.github.io/washington-imports/kingcounty.mapcss";
+	watch-modified: true;
+}
+
+area[building]
+{
+	building-set: true;
+	z-index: 1;
+	color: #FFFFFF;
+	fill-opacity: .4;
+	fill-color: #00FFFF;
+	width: 2;
+}
+
+
+area[prop(building-set)][source:addr:id]
+{
+	fill-color: #8F3900;
+}
+
+area[prop(building-set)][!name][addr:housenumber]
+{
+	address-set: true;
+	text: eval(tag("addr:housenumber"));
+	fill-color: #E09766;
+}
+
+
+/* Door icon from http://findicons.com/icon/159106/door?id=426816 under CC-BY, resized and compressed */
+node[addr:housenumber][addr:street][!amenity][!shop]
+{
+	icon-image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAABH0lEQVQoz52SsS5EYRCFzwZhFTaEAvEgOonH8A5qtffwCpRbqTyDQlQKQSKbqC535pyjmLt3Se4q/Mmfmb84852Zf4B/ntE8ub86tyTYBElIdcnsI5k4ubgZAcDqXCgRe8engAnLkASLgNjnj7fXPbEXkgmT+Px4hjuaSbgjbmztI7MdFkqEmLCqiJgQCStBxrAwM6p6RhGZ9SZhBpyBiEFiJ+zjgjpyC5HLiG1Zi7b6y4SU2JnMcHjwjqeXCTJj2Ko6q71NVZzNxmi+1v4iBpjtL6tvr+swV7C5q2FiRLsYDqMbSldAlZOxhJjVo1XTnFOt+qIlPZbV8fYRbMFMWKprQqy163d1Op26aRrE3WW/jz/3c7GzhE08bJ8BAL4BPK1y+NYu4XYAAAAASUVORK5CYII=";
+	address-set: true;
+	text-color: white;
+	text-halo-radius: 2;
+	font-size: 10;
+	icon-opacity: .9;
+	text-anchor-vertical: top;
+}
+
+*|z18-[prop(address-set)]
+{
+	text: eval(concat(tag("addr:housenumber"), " ", tag("addr:street")));
+}
